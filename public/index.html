@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 4em;
+        list-style: none;
+      }
+      img {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <button>Search Song</button>
+    <ul></ul>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io()
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        if (!MediaRecorder.isTypeSupported('audio/webm')) {
+          return alert('Browser not supported')
+        }
+        const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' })
+
+        mediaRecorder.addEventListener('dataavailable', event => {
+          if (event.data.size > 0) {
+            socket.emit('microphone-stream', event.data)
+          }
+        })
+        mediaRecorder.start(1000)
+
+        const button = document.querySelector('button')
+        button.addEventListener('click', () => {
+          button.remove()
+          mediaRecorder.stop()
+          socket.emit('search')
+        })
+      })
+
+      socket.on('result', data => {
+        const ul = document.querySelector('ul')
+        for (let song of data) {
+          const li = `
+            <li>
+              <img src="${song.result.song_art_image_url}">
+              <p>${song.result.full_title}</p>
+            </li>
+          `
+          ul.innerHTML += li
+        }
+      })
+    </script>
+  </body>
+</html>
