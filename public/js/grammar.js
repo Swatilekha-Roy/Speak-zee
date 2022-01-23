@@ -14,7 +14,7 @@ navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
     "47ae7d40eae8a05537e2d38b5734ac43006ce8cc",
   ]);
   socket.onopen = () => {
-    document.querySelector("#status").textContent = "Connected";
+    //    document.querySelector("#status").textContent = "Connected";
     console.log({ event: "onopen" });
     mediaRecorder.addEventListener("dataavailable", async (event) => {
       if (event.data.size > 0 && socket.readyState == 1) {
@@ -30,7 +30,7 @@ navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
 
     if (transcript && received.is_final) {
       console.log(transcript);
-      document.querySelector("#transcript").textContent += transcript + " ";
+      //      document.querySelector("#transcript").textContent += transcript + " ";
       str_g = str_g + " " + transcript;
     }
   };
