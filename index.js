@@ -1,18 +1,12 @@
 // Imports
 require("dotenv").config({ path: ".env" });
+const express = require("express");
 const bodyparser = require("body-parser");
 const ejs = require("ejs");
-// Require
-var express = require('express');
-const app = express();
-const httpServer = require("http").createServer(app);
-const io = require("socket.io")(httpServer, {
-  // ...
-});
-const { Deepgram } = require('@deepgram/sdk')
-const axios = require('axios')
+const { Deepgram } = require("@deepgram/sdk");
 
 // Intialize the app
+const app = express();
 
 // Body-parser middleware
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -35,44 +29,55 @@ app.get("/grammar", (req, res) => {
   res.render("grammar");
 });
 
+// /** Your Deepgram API Key*/
+// const deepgramApiKey = "47ae7d40eae8a05537e2d38b5734ac43006ce8cc";
 
+// /** Name and extension of the file you downloaded (e.g., sample.wav) */
+// const pathToFile = "audio.wav";
 
-/** Your Deepgram API Key*/
-const deepgramApiKey = "47ae7d40eae8a05537e2d38b5734ac43006ce8cc";
+// /** Initialize the Deepgram SDK */
+// const deepgram = new Deepgram(deepgramApiKey);
 
-/** Initialize the Deepgram SDK */
-const deepgram = new Deepgram(deepgramApiKey);
+// /** Create a websocket connection to Deepgram */
+// const deepgramSocket = deepgram.transcription.live({ punctuate: true });
 
-/** Create a websocket connection to Deepgram */
-const deepgramSocket = deepgram.transcription.live({ punctuate: true });
+// /** Listen for the connection to open and begin sending */
+// deepgramSocket.addListener("open", () => {
+//   console.log("Connection opened!");
 
-/** Listen for the connection to open and begin sending */
-deepgramSocket.addListener("micBinaryStream", data => {
-  console.log("Connection opened!");
-  deepgramLive.send(data)
+//   /** Grab your audio file */
+//   const fs = require("fs");
+//   const contents = fs.readFileSync(pathToFile);
 
-  /** Close the websocket connection */
-  // deepgramSocket.finish();
-});
+//   /** Send the audio to the Deepgram API in chunks of 1000 bytes */
+//   const chunk_size = 1000;
+//   for (i = 0; i < contents.length; i += chunk_size) {
+//     const slice = contents.slice(i, i + chunk_size);
+//     deepgramSocket.send(slice);
+//   }
 
-/** Listen for the connection to close */
+//   /** Close the websocket connection */
+//   deepgramSocket.finish();
+// });
+
+// /** Listen for the connection to close */
 // deepgramSocket.addListener("close", () => {
 //   console.log("Connection closed.");
 // });
 
-/**
- * Receive transcripts based on sent streams and
- * write them to the console
- */
-deepgramSocket.addListener("transcriptReceived", (transcription) => {
-  console.log(JSON.parse(transcription)["channel"]["alternatives"][0]["transcript"]);
-});
+// /**
+//  * Receive transcripts based on sent streams and
+//  * write them to the console
+//  */
+// deepgramSocket.addListener("transcriptReceived", (transcription) => {
+//   console.log(transcription);
+//   console.log(transcription.channel.alternatives.transcript);
+// });
 
 // Ports
-// var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3000;
 
-// // Running App on Port
-// app.listen(PORT, () => {
-//   console.log(`Server Running on Port ${PORT}`);
-// });
-httpServer.listen(3000);
+// Running App on Port
+app.listen(PORT, () => {
+  console.log(`Server Running on Port ${PORT}`);
+});
