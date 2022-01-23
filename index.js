@@ -24,6 +24,11 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+// Grammar page rendering
+app.get("/grammar", (req, res) => {
+  res.render("grammar");
+});
+
 // /** Your Deepgram API Key*/
 // const deepgramApiKey = "47ae7d40eae8a05537e2d38b5734ac43006ce8cc";
 
