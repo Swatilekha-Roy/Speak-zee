@@ -93,7 +93,7 @@ h3,h4,h5,h6 {
 
 /* Big buttons */
 .bigbtn {
-    background-color: #347db8;
+    background-color: #EE826C;
     color: white;
     outline: none !important;
     border: none !important;
@@ -108,7 +108,7 @@ h3,h4,h5,h6 {
 }
 
 .bigbtn:hover,.bigbtn:active,.bigbtn:focus {
-    background-color: #184d78;
+    background-color: #E05A47;
     outline: none !important;
     box-shadow: none !important;
     border: none !important;
@@ -120,8 +120,8 @@ h3,h4,h5,h6 {
 footer {
 	margin-top: 70px;
 	padding: 40px 0 0 0;
-    background-color: #ffcc00b6;
-	color: #840C1A;
+    background-color: #9fc4e2;
+	color: #184d78;
 	text-align: left;
 }
 
@@ -138,14 +138,14 @@ footer {
 
 .footer-link {
     text-decoration: none;
-    color: #BB1646;
+    color: #EE826C;
     margin-left: 2%;
     float: right;
     font-weight: 600;
 }
 
 .footer-link:hover,.footer-link:active,.footer-link:focus {
-    color: #8d1033;
+    color: #E05A47;
 }
 
 @media only screen and (max-width: 768px) {
@@ -162,7 +162,7 @@ footer {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background: #ffcc00b6;
+    background: #EE826C;
     width: 50px;
     height: 50px;
     display: block;
@@ -179,7 +179,7 @@ footer {
 }
 
 #return-to-top i {
-    color: #BB1646;
+    color: #347db8;
     margin: 0;
     position: relative;
     right: 16px;
@@ -194,11 +194,11 @@ footer {
 }
 
 #return-to-top:hover {
-    background: #E17192;
+    background: #E05A47;
 }
 
 #return-to-top:hover i {
-    color: #BB1646;
+    color: #184d78;
     top: 5px;
 }
 
