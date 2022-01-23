@@ -193,7 +193,6 @@ async function init() {
       "47ae7d40eae8a05537e2d38b5734ac43006ce8cc",
     ]);
     socket.onopen = () => {
-      document.querySelector("#status").textContent = "Connected";
       console.log({ event: "onopen" });
       mediaRecorder.addEventListener("dataavailable", async (event) => {
         if (event.data.size > 0 && socket.readyState == 1) {
@@ -209,7 +208,6 @@ async function init() {
 
       if (transcript && received.is_final) {
         console.log(transcript);
-        document.querySelector("#transcript").textContent += transcript + " ";
         str_g = str_g + " " + transcript;
       }
     };
@@ -343,6 +341,10 @@ async function initstop() {
     seconds = Math.floor(timeslot - minutes * 60);
     window.timeprint = minutes + " minutes and " + seconds + " seconds";
   }
+
+  const myArray = str_g.split(" ");
+  let wpm = myArray.length / (timeslot * 60);
+
   sumaudioarr1 /= audio1arr.length;
   sumaudioarr2 /= audio2arr.length;
   sumimagearr1 /= image1arr.length;
