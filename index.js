@@ -47,12 +47,12 @@ const deepgram = new Deepgram(deepgramApiKey);
 const deepgramSocket = deepgram.transcription.live({ punctuate: true });
 
 /** Listen for the connection to open and begin sending */
-deepgramSocket.addListener("micBinaryStream", left16 => {
+deepgramSocket.addListener("micBinaryStream", data => {
   console.log("Connection opened!");
-  deepgramLive.send(left16)
+  deepgramLive.send(data)
 
   /** Close the websocket connection */
-  deepgramSocket.finish();
+  // deepgramSocket.finish();
 });
 
 /** Listen for the connection to close */
