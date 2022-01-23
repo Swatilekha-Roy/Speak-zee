@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+
+    <!-- FA CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+
+    <!-- font-awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- WOW CSS -->
+    <link rel="stylesheet" href="css/animate.css" />
+
+    <!-- Plotly JS -->
+    <script src="https://cdn.plot.ly/plotly-2.3.1.min.js"></script>
+
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet-src.js"></script>
+
+    <!-- D3 -->
+    <script src="https://unpkg.com/d3@5.15.0/dist/d3.min.js"></script>
+
+    <!-- leaflet-gpx -->
+    <script src="https://unpkg.com/leaflet-gpx@1.5.0/gpx.js"></script>
+
+    <!-- leaflet-elevation -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@raruto/leaflet-elevation@1.0.1/dist/leaflet-elevation.css"
+    />
+    <script src="https://unpkg.com/@raruto/leaflet-elevation@1.0.1/dist/leaflet-elevation.js"></script>
+
+    <!-- JS Pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+
+    <!-- Title of Page -->
+    <title>Speak-zee</title>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-md navbar-light fixed-top"
+      style="background-color: rgba(255, 255, 255, 0.47) !important"
+    >
+      <div class="container-fluid" style="padding-left: 0 !important">
+        <a class="navbar-brand" href="index.html">
+          <img
+            src="img/logo.png"
+            width="200"
+            background="white"
+            text-indent="-99999px"
+          />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#"
+                >Practice Speech</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Speech Section -->
+    <div class="container top-con">
+      <div class="row wow fadeInLeft">
+        <h2>Want to be more confident with your communications?</h2>
+        <div class="col-xs-12" style="text-align: center">
+          <h3>Speak-zee Will Help!</h3>
+        </div>
+      </div>
+      <br />
+
+      <div class="row">
+        <div class="col-xs-12">
+          <button
+            id="record-btn"
+            class="btn btn-primary bigbtn wow fadeIn"
+            type="button"
+            onclick="init()"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: auto;
+              padding: 12px 25px;
+            "
+          >
+            Start Recording
+          </button>
+        </div>
+
+        <div class="col-xs-12" style="margin-top: 3%">
+          <button
+            id="stop-record-btn"
+            class="btn btn-primary bigbtn"
+            type="button"
+            onclick="initstop()"
+            style="
+              display: none;
+              align-items: center;
+              justify-content: center;
+              margin: auto;
+              padding: 12px 25px;
+            "
+          >
+            Stop Recording
+          </button>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 5%">
+        <div class="col-xs-12 col-md-7">
+          <canvas
+            id="canvas"
+            style="margin-right: 0; padding-right: 0; display: none"
+          >
+          </canvas>
+        </div>
+
+        <div class="col-xs-12 col-md-7" id="filler-gif" style="float: right">
+          <iframe
+            src="https://giphy.com/embed/w82VCczHtPMnjQ2l4H"
+            width="480"
+            height="480"
+            frameBorder="0"
+            class="giphy-embed"
+            allowFullScreen
+          ></iframe>
+        </div>
+
+        <div class="col-xs-12 col-md-4 speech-img wow slideInRight">
+          <img src="img/speech.png" height="350" />
+        </div>
+      </div>
+
+      <div class="row" id="speech-report-div">
+        <h3 id="speech-report" style="display: none; font-size: 2rem">
+          Speech Analysis Live Report
+        </h3>
+        <div class="col-xs-12 col-md-4">
+          <div
+            id="pose_label-container"
+            style="font-size: 1.1rem; font-weight: 700"
+          ></div>
+        </div>
+
+        <div
+          class="col-xs-12 col-md-4"
+          style="font-size: 1.1rem; font-weight: 700"
+        >
+          <div id="audio_label-container"></div>
+        </div>
+
+        <div
+          class="col-xs-12 col-md-4"
+          style="font-size: 1.1rem; font-weight: 700"
+        >
+          <div id="image_label-container"></div>
+        </div>
+      </div>
+
+      <div
+        class="row"
+        id="speech-final-rep"
+        style="margin-top: 4%; display: none"
+      >
+        <p>
+          <strong>Posture Feedback</strong>: <span id="pose-rep"></span>
+          <br />
+          <strong>Voice Feedback</strong>: <span id="audio-rep"></span>
+          <br />
+          <strong>Fly Solo Feedback</strong>: <span id="image-rep"></span>
+        </p>
+        <p>
+          <strong>Total Speech Duration</strong>: <span id="time-rep"></span>
+        </p>
+        <div
+          id="graph-div"
+          style="
+            max-width: 800px;
+            max-height: 300px;
+            margin: auto;
+            align-items: center;
+            justify-items: center;
+          "
+        ></div>
+        <img id="jpg-export" style="display: none" />
+        <button
+          id="speech-report-btn"
+          style="
+            max-width: 350px;
+            margin: auto;
+            align-items: center;
+            justify-items: center;
+          "
+          class="bigbtn"
+        >
+          Download Speech Report
+        </button>
+      </div>
+    </div>
+
+    <!-- Speech Description -->
+    <div
+      class="container wow fadeInRight"
+      id="landspeech"
+      style="
+        margin-top: 5%;
+        background-color: rgba(253, 249, 190, 0.801);
+        padding: 15px;
+        border-radius: 10px;
+      "
+    >
+      <div class="row">
+        <div class="col-md-4">
+          <img src="img/landspeech.png" width="280px" />
+        </div>
+        <div class="col-md-8" style="z-index: 200">
+          <h3>How to Use Speak-zee's Speech Analyser?</h3>
+          <ul>
+            <li>Click on the big 'Start Recording' button in the center.</li>
+            <li>
+              Take a couple of deep breaths and be patient while our ML software
+              loads.
+            </li>
+            <li>
+              If this is your first time using our platform, you will have to
+              allow your browser camera and microphone permissions (don't fret,
+              we don't store any of your data).
+            </li>
+            <li>
+              Once the model has successfully loaded, you will see the camera
+              canvas in the middle.
+            </li>
+            <li>
+              Get comfortable and start speaking. While you do, you will get to
+              see live feedback of your speech.
+            </li>
+            <li>Once you're done, press the 'Stop Recording' button.</li>
+            <li>
+              You'll see an overview of your overall speech and also the
+              duration that you spoke for.
+            </li>
+            <li>
+              If you want to see a graphical representation of your speech and
+              also download a .pdf version of your report, hit the 'Download
+              Speech Report' button!
+            </li>
+            <li>
+              Last but not the least, Moira Rose is here to inspire you! :)
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-10 footer-left">
+            <p>
+              <img src="img/favicon.png" style="width: 40px" />
+              <span style="color: #840c1a; font-weight: 600">
+                Made with <i class="fa fa-heart" aria-hidden="true"></i> by
+                Kodez
+              </span>
+            </p>
+          </div>
+          <div class="col-sm-2 footer-right">
+            <a class="footer-link" href=""
+              ><i
+                class="fa fa-github"
+                aria-hidden="true"
+                style="font-size: 30px"
+              ></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll to top arrow -->
+    <a href="javascript:" id="return-to-top"
+      ><i class="fa fa-angle-up" aria-hidden="true" style="font-size: 30px"></i
+    ></a>
+
+    <!-- JQuery JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"
+      integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g=="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+      integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+      integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Teachable Machine ML libraries -->
+    <script src="js/tensorflow/tf.min.js"></script>
+    <script src="js/tensorflow/teachablemachine-pose.min.js"></script>
+    <script src="js/tensorflow/speech-commands.min.js"></script>
+    <script src="js/tensorflow/teachablemachine-image.min.js"></script>
+
+    <script
+      src="js/tensorflow/audiomodel.json"
+      type="application/json"
+    ></script>
+    <script
+      src="js/tensorflow/audiometadata.json"
+      type="application/json"
+    ></script>
+    <script
+      src="js/tensorflow/imagemodel.json"
+      type="application/json"
+    ></script>
+    <script
+      src="js/tensorflow/imagemetadata.json"
+      type="application/json"
+    ></script>
+    <script src="js/tensorflow/posemodel.json" type="application/json"></script>
+    <script
+      src="js/tensorflow/posemetadata.json"
+      type="application/json"
+    ></script>
+
+    <!-- Custom script -->
+    <script src="js/script.js"></script>
+
+    <!-- WOW animations -->
+    <script src="js/wow/wow.min.js"></script>
+
+    <script type="text/javascript">
+      new WOW().init();
+    </script>
+  </body>
+</html>
